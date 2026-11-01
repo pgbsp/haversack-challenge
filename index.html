@@ -1,353 +1,108 @@
-// Prairie Grove Battlefield State Park
-// Soldier's Load Interpretive Activity
-// Build a realistic Civil War marching load weighing exactly 60 pounds.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#403124" />
+  <title>Battle of Prairie Grove | Soldier's Load Challenge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <h1>BATTLE OF PRAIRIE GROVE</h1>
+    <p class="subtitle">Can You Carry the Soldier's Load?</p>
+    <p class="tagline">A Civil War Haversack Challenge</p>
+  </header>
 
-const ITEMS = [
-  {
-    id: "rifle_acc",
-    name: "Rifle & accouterments",
-    weight: 14,
-    desc: "Firearm grouped with bayonet, belt, and cartridge boxes."
-  },
-  {
-    id: "ammo",
-    name: "Ammunition (cartridges)",
-    weight: 5,
-    desc: "Typical ammunition carried on campaign."
-  },
-  {
-    id: "canteen_full",
-    name: "Canteen (full)",
-    weight: 4,
-    desc: "Water carried for the march."
-  },
-  {
-    id: "knapsack_packed",
-    name: "Knapsack (packed)",
-    weight: 15,
-    desc: "Clothing, blanket roll, and personal belongings."
-  },
-  {
-    id: "blanket_wool",
-    name: "Wool blanket",
-    weight: 5,
-    desc: "Essential bedding for field service."
-  },
-  {
-    id: "shelter_half",
-    name: "Shelter half",
-    weight: 2,
-    desc: "Half of a small tent carried by each soldier."
-  },
-  {
-    id: "haversack_rations",
-    name: "Haversack + 3 days cooked rations",
-    weight: 6,
-    desc: "Food carried in a tarred canvas haversack."
-  },
-  {
-    id: "mess_tinware",
-    name: "Mess kit (tin cup, plate, utensils)",
-    weight: 2,
-    desc: "Tinware used for eating and cooking."
-  },
-  {
-    id: "gum_blanket",
-    name: "Gum blanket (ground cloth)",
-    weight: 2,
-    desc: "Rubberized cloth used beneath bedding."
-  },
-  {
-    id: "overcoat",
-    name: "Winter overcoat",
-    weight: 5,
-    desc: "Heavy outer garment for cold-weather campaigns."
-  },
-  {
-    id: "underclothing",
-    name: "Extra underclothing",
-    weight: 2,
-    desc: "Spare shirt, drawers, and socks."
-  },
-  {
-    id: "bible_letters",
-    name: "Bible & letters from home",
-    weight: 1,
-    desc: "Personal keepsakes carried by many soldiers."
-  },
-  {
-    id: "housewife",
-    name: "Housewife (sewing kit)",
-    weight: 1,
-    desc: "Needles, thread, and buttons for repairing clothing."
-  },
-  {
-    id: "coffee_sugar",
-    name: "Coffee & sugar pokes",
-    weight: 2,
-    desc: "Common ration staples on campaign."
-  },
-  {
-    id: "soap_candles",
-    name: "Soap & candles",
-    weight: 2,
-    desc: "Small comforts and practical necessities."
-  },
-  {
-    id: "tent_poles",
-    name: "Tent poles & pegs",
-    weight: 4,
-    desc: "Shelter-support equipment."
-  },
-  {
-    id: "frying_pan",
-    name: "Mess frying pan",
-    weight: 3,
-    desc: "Useful but often discarded to reduce weight."
-  },
-  {
-    id: "extra_socks",
-    name: "Extra socks",
-    weight: 1,
-    desc: "An important comfort on long marches."
-  },
-  {
-    id: "hardtack_bag",
-    name: "Hardtack bag",
-    weight: 2,
-    desc: "Additional marching rations."
-  },
-  {
-    id: "spare_clothes",
-    name: "Spare trousers & shirt",
-    weight: 3,
-    desc: "An extra set of clothing."
-  }
-];
+  <main class="container">
+    <section class="card" id="haversackCard">
+      <p class="screen-label">Interpretive Activity</p>
+      <h2 id="haversackHeading">Build a Soldier's Load</h2>
 
-// Historical activity goals
-const MAX_ITEMS = 10;
-const TARGET_WEIGHT = 60;
+      <div class="intro-story">
+        <p>
+          December 1862. Soldiers marching toward Prairie Grove carried nearly
+          everything they needed to survive in the field. Clothing, blankets,
+          ammunition, food, shelter, and personal keepsakes all competed for
+          limited space.
+        </p>
+        <p>
+          Every additional pound made a march more difficult. Soldiers
+          constantly balanced comfort, necessity, and survival while deciding
+          what to carry.
+        </p>
+        <p>
+          As a Civil War soldier, choose the equipment you think was worth
+          carrying. Can you assemble a realistic marching load weighing exactly
+          sixty pounds?
+        </p>
+      </div>
 
-// DOM references
-const gridEl = document.getElementById("itemGrid");
-const selectedCountEl = document.getElementById("selectedCount");
-const totalWeightEl = document.getElementById("totalWeight");
-const resultMessageEl = document.getElementById("resultMessage");
-const checkButton = document.getElementById("checkButton");
-const resetButton = document.getElementById("resetButton");
+      <div class="historical-note">
+        <p>
+          <strong>Historical Note:</strong> The equipment shown here is based on
+          items commonly carried by Civil War soldiers. Major gear weights are
+          adapted from historical load analyses, while several small-item
+          weights have been simplified for educational gameplay.
+        </p>
+      </div>
 
-// Render item grid
-function renderGrid() {
-  gridEl.replaceChildren();
+      <div class="status-bar" aria-live="polite">
+        <div><strong>Items Packed:</strong> <span id="selectedCount">0</span> / 10 items</div>
+        <div><strong>Current Load:</strong> <span id="totalWeight">0</span> lb</div>
+        <div class="target"><strong>Marching Weight:</strong> 60 lb</div>
+      </div>
 
-  const fragment = document.createDocumentFragment();
+      <div id="itemGrid" class="item-grid" aria-labelledby="haversackHeading"></div>
 
-  ITEMS.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "item-card";
+      <div class="puzzle-actions">
+        <button class="primary-btn touch-btn" id="checkButton" type="button">Evaluate My Pack</button>
+        <button class="secondary-btn touch-btn" id="resetButton" type="button">Start Over</button>
+      </div>
 
-    const title = document.createElement("h3");
-    title.textContent = item.name;
+      <div id="resultMessage" class="result-message" role="status" aria-live="polite"></div>
 
-    const weight = document.createElement("div");
-    weight.className = "weight";
-    weight.textContent = `Approximate Weight: ${item.weight} lb`;
+      <details class="sources">
+        <summary>Historical Sources</summary>
+        <ul>
+          <li>
+            <a href="https://www.nps.gov/gett/learn/education/a-nation-at-war-table-2-accouterments-of-a-civil-war-soldier-teacher-s-instructions.htm">NPS: Accouterments of a Civil War Soldier (Gettysburg)</a>
+            — Item types including knapsack, haversack, shelter half, gum blanket, tinware, and sewing kit.
+          </li>
+          <li>
+            <a href="https://www.civilwarmonitor.com/article/the-weight-they-carried/">Civil War Monitor: The Weight They Carried</a>
+            — Typical weights for major gear, clothing, and campaign loads.
+          </li>
+          <li>
+            <a href="https://www.nps.gov/apco/learn/education/common-soldier-activity.htm">NPS Appomattox: Common Soldier Activity</a>
+            — Background on ammunition and military equipment.
+          </li>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Springfield_Model_1861">Springfield Model 1861</a>
+            — Firearm weight information.
+          </li>
+          <li>
+            <a href="https://ss-sutler.com/tents.htm">S &amp; S Sutler: Shelter Tent Halves</a>
+            — Shelter-half equipment references.
+          </li>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Foods_of_the_American_Civil_War">Foods of the American Civil War</a>
+            — Historical ration information for hardtack, coffee, and sugar.
+          </li>
+        </ul>
+        <p class="note">
+          Items marked "approx." use rounded values for educational play while
+          remaining historically plausible.
+        </p>
+      </details>
+    </section>
+  </main>
 
-    const desc = document.createElement("div");
-    desc.className = "desc";
-    desc.textContent = item.desc;
+  <footer>Prairie Grove Battlefield State Park Interpretive Experience</footer>
+</body>
+</html>
 
-    const selectWrap = document.createElement("label");
-    selectWrap.className = "item-select";
-    selectWrap.setAttribute("aria-label", `Pack ${item.name}`);
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = item.id;
-
-    checkbox.addEventListener("change", (e) => {
-      card.classList.toggle("selected", e.target.checked);
-      onSelectionChange(e);
-    });
-
-    const labelText = document.createElement("span");
-    labelText.textContent = "Pack This Item";
-
-    card.appendChild(title);
-    card.appendChild(weight);
-    card.appendChild(desc);
-    card.appendChild(selectWrap);
-
-    selectWrap.appendChild(checkbox);
-    selectWrap.appendChild(labelText);
-
-    fragment.appendChild(card);
-  });
-
-  gridEl.appendChild(fragment);
-}
-
-function getSelectedIds() {
-  return Array.from(
-    gridEl.querySelectorAll("input[type='checkbox']:checked")
-  ).map(cb => cb.value);
-}
-
-function getSelectedItems() {
-  const ids = getSelectedIds();
-  return ITEMS.filter(item => ids.includes(item.id));
-}
-
-function recomputeStatus() {
-  const items = getSelectedItems();
-
-  const count = items.length;
-
-  const total = items.reduce(
-    (sum, item) => sum + item.weight,
-    0
-  );
-
-  selectedCountEl.textContent = count;
-  totalWeightEl.textContent = total;
-
-  resultMessageEl.className = "result-message";
-
-  if (count > MAX_ITEMS) {
-    resultMessageEl.classList.add("error");
-
-    resultMessageEl.textContent =
-      `You may carry only ${MAX_ITEMS} items. Remove ${count - MAX_ITEMS} item(s) before continuing.`;
-
-    return;
-  }
-
-  if (count === MAX_ITEMS) {
-    const delta = TARGET_WEIGHT - total;
-
-    if (delta === 0) {
-      resultMessageEl.classList.add("ok");
-
-      resultMessageEl.textContent =
-        "Historical Match: You assembled a realistic Civil War marching load weighing sixty pounds.";
-
-      return;
-    }
-
-    if (delta > 0) {
-      resultMessageEl.classList.add("error");
-
-      resultMessageEl.textContent =
-        `Your load is lighter than many soldiers carried. Consider what additional equipment might have been necessary during a winter campaign. (${delta} lb below target)`;
-
-      return;
-    }
-
-    resultMessageEl.classList.add("error");
-
-    resultMessageEl.textContent =
-      `Your load exceeds the target marching weight. Soldiers often discarded non-essential items to reduce fatigue. (${Math.abs(delta)} lb over target)`;
-
-    return;
-  }
-
-  resultMessageEl.textContent =
-    "Pack ten items and aim for a realistic marching load of sixty pounds.";
-}
-
-function onSelectionChange(e) {
-  const checked =
-    gridEl.querySelectorAll("input[type='checkbox']:checked");
-
-  if (checked.length > MAX_ITEMS) {
-    e.target.checked = false;
-
-    const card =
-      e.target.closest(".item-card");
-
-    if (card) {
-      card.classList.remove("selected");
-    }
-  }
-
-  recomputeStatus();
-}
-
-// Evaluate pack
-checkButton.addEventListener("click", () => {
-  const count = getSelectedIds().length;
-
-  const total = getSelectedItems().reduce(
-    (sum, item) => sum + item.weight,
-    0
-  );
-
-  resultMessageEl.className = "result-message";
-
-  if (count !== MAX_ITEMS) {
-    resultMessageEl.classList.add("error");
-
-    resultMessageEl.textContent =
-      `A Civil War soldier had to make difficult choices. Select exactly ${MAX_ITEMS} items before evaluating your pack.`;
-
-    return;
-  }
-
-  if (total !== TARGET_WEIGHT) {
-    resultMessageEl.classList.add("error");
-
-    const diff = Math.abs(total - TARGET_WEIGHT);
-
-    resultMessageEl.textContent =
-      total < TARGET_WEIGHT
-        ? `Your load is lighter than the target marching weight by ${diff} lb. What additional necessities might a soldier have carried?`
-        : `Your load exceeds the target marching weight by ${diff} lb. Soldiers often reduced weight whenever possible to ease the strain of a long march.`;
-
-    return;
-  }
-
-  resultMessageEl.classList.add("ok");
-
-  resultMessageEl.textContent =
-    "Historical Match: At sixty pounds, your pack reflects the burdens many soldiers carried during the Prairie Grove campaign.";
-});
-
-// Reset activity
-resetButton.addEventListener("click", () => {
-
-  gridEl
-    .querySelectorAll(".item-card")
-    .forEach(card => {
-      card.classList.remove("selected");
-    });
-
-  gridEl
-    .querySelectorAll("input[type='checkbox']")
-    .forEach(cb => {
-      cb.checked = false;
-    });
-
-  recomputeStatus();
-});
-
-// Initialize activity
-renderGrid();
-recomputeStatus();
-
-/* ---------- SAMPLE SOLUTION ----------
-One valid 10-item combination totaling exactly 60 lb:
-
-Rifle & accouterments .................. 14
-Ammunition .............................. 5
-Canteen (full) .......................... 4
-Knapsack (packed) ...................... 15
-Haversack + 3 days cooked rations ....... 6
-Wool blanket ............................ 5
-Winter overcoat ......................... 5
-Shelter half ............................ 2
-Mess kit ................................ 2
-Coffee & sugar pokes .................... 2
-
-Total .................................. 60 lb
---------------------------------------- */
